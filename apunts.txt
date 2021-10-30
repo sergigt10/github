@@ -1,0 +1,159 @@
+** Primer cop que s'instala git **
+----------------------------------
+# git config --global user.name "_NomUsuariGithub_"
+
+# git config --global user.email "_CorreuElectronic_"
+
+** Pasos bàsics de Git i Github **
+-----------------------------------
+# Inicialitzar repositori:
+	git init
+# Veure estat del repositori:
+	git status
+# Afegim els fitxers que volem pujar:
+	git add .
+# Quitar archivo de la subida:
+    git reset nombreArchivo
+# Fem un commit:
+	git commit -m "primer commit"
+	Si fem git commit -am "nom del commit" a l'afegir -am ja no fa falta fer el git add
+# Enllaçar repositori amb el contingut local:
+	git remote add origin https://github.....
+# Veure el contingut remot:
+	git remote -v
+# Canviar de repositori 
+	git remote rm origin
+# Pujar canvis dels fitxers en el repositori:
+	git push -u origin master
+
+# Corregir texte del commit:
+	git commit --amend -m "Nombre del nuevo commit"
+
+# Eliminar un commit i tornar a una altre commit anterior:
+	git reset --soft hashdelcommitatornar
+	Si en comptes de hashdelcommitatornar posem HEAD^ torna al commit anterior
+	--hard es més destrictiu (No deixa res que hi havia abans modificat en canvi el --soft si)
+
+# Veure tots els moviments que hem fet:
+	git reflog 
+
+# Descarregar tot el contingut de github:
+	git clone https://github.....
+	Fent això ens descarreguem tot historial de commits, tags,... Si haguesim descarregat el zip no tindriem aquesta informació.
+
+# Descarregar canvis del repositori:
+	git pull
+# Per gestionar millor els conflictes amb fitxers modificats a l'hora de fer git pull:
+	git config --global pull.rebase true 
+	I després fem -> git pull
+	git rebase --continue
+# Per descarregar tots els canvis del repositori i les seves branques:
+	git pull --all
+
+# Agafar el contingut d'un altre repositori i clonar-l'ho al nostre repositori (després es poden fer commits, push, ...):
+	(fork) en el repositori del github
+	Pot ser útil per crear versions alternatives després si volem aplicar aquests canvis al repositori oficial del creador tindrem que fer: git pull request
+    
+# Restaurar archivos eliminados o modificacions echas por nosotros que estan subidos en el git o stage:
+    git checkout -- .
+
+# Restaurar commit o fitxer:
+	git checkout nomHashCommit nomDelFitxerARestaurar
+
+# Veure diferencies de fitxers modificats:
+	git diff
+	
+# Si no permet pujar alguna carpeta/arxiu:
+	git rm -rf --cached myuntrackedfolder
+
+	git add myuntrackedfolder 
+
+# Crear àlies per el log:
+	git config --global alias.lg "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+	# Després tenim: git lg
+
+# Creas àlies status:
+	git config --global alias.s status --short
+	# Després tenim: git s
+
+** Branques **
+--------------
+# Fast-forward -> git ha pogut identificar cada un dels canvis i no hi ha cap conflicte.
+# Recursive -> git si no troba conflictes unirà els canvis.
+# Actualitzar repositori local perquè sàpiga que té noves branques o nous canvis a la branca actual:
+	git fetch
+# Accedir a una altre branca del repositori:
+	git checkout nom_de_la_branca
+# Crear una nueva branca:
+	git checkout -b nom_de_la_branca
+# Crear una nova branca de forma lenta:
+	git branch nom_de_la_branca
+# Veure a quina branca estem:
+	git branch
+# Veure totes les branques:
+	git branch -a
+# Canviar el nom de la branca:
+    git branch -m master main
+# Pujar a la nova branca:
+	git push -u origin nom_de_la_branca
+* A la branca que volem unir el contingut d'una altre branca fem el següent:
+	git merge nom_de_la_branca_a_unir
+* Esborrar una branca:
+	git branch -d nom_de_la_branca_eliminar
+	Si afegim -f al final l'elimina si o si.
+* Si queden branques en local que ja no existeixen online fem:
+	git remote prune origin
+
+# Descarregar els últims canvis d'una branca:
+	git pull --rebase origin master
+
+# Després fer els pasos de sempre git add . , git commit...
+
+# Recordatori de la branca que utilitzem (URL)
+	git remote -v
+
+** Tags **
+----------
+# Son una referencia a un commit específic. Són molt útils també per recuperar branques eliminades. Afegir per exemple versió 1.0.0, 0.0.2, versió finalitzada, ...
+# Indicar que una versió esta finalitzada (Release):
+	git tag -a v1.0.0 -m "Versió 1.0.0 finalitzada"
+# Estructura de una versió (ex: v1.0.0):
+v1 -> Hi hagut canvis grans.
+0 -> Afegim certes funcionalitats però no tan grans.
+0 -> Arreglem un bug
+# Pujar tags a github:
+	git push --tags
+
+** Stash **
+-----------
+# Un lloc segur per pujar canvis temporals que encara no estàn al commit i serveixen per poder recuperar la informació quan es desitgi:
+	git stash
+	git stash list -> Vuere els stash fets
+# Recuperar l'últim stash creat:
+	git stash pop
+# Esborrar tots els stash:
+	git stash clear
+
+** Rebase **
+------------
+#  Serveix per ordenar commits, corregir missatges dels commits, unir commits i separar commits.
+	git rebase nom_de_la_branca
+
+** Pull requests **
+-------------------
+# Serveix per fer una anàlisis previ al merge.
+	pull request
+
+** Issues **
+------------
+# Realitzar preguntes a l'administrador/s del repositori.
+# Si fem un commit amb el número del issues es tancarà automàticament al github.
+# Es poden fer plantilles per defecte.
+
+** Milestones **
+----------------
+# Permet agrupar issues d'un repositori i posar-nos reptes a realitzar.
+
+** Gist **
+----------
+# Un bloc de codi (compartir codi o biblioteca d'informació).
